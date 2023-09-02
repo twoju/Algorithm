@@ -14,3 +14,4 @@ for i in range(A, B + 1):
             ans += 1
 print(ans)
 
+
