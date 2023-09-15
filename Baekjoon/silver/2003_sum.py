@@ -4,16 +4,19 @@ arr = [i for i in map(int, input().split())]
 
 ans = 0
 i, j = 0, 0
-while j < N and i <= j:
-    total = sum(arr[i:j+1])
+total = arr[0]
+while True:
     if total == M:
         ans += 1
+        total -= arr[i]
         i += 1
     elif total < M:
+        j += 1
         if j == N:
             break
-        j += 1
+        total += arr[j]
     else:
+        total -= arr[i]
         i += 1
 
 print(ans)
