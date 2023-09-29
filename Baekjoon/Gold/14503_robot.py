@@ -17,32 +17,30 @@ def get_clean():
 def clean(r, c):
     if cleaned[r][c] == False:
         now.append([r, c])
+        ans += 1
     is_clean()
 
 
-def find(d):
-    global ans
-    for i in range(len(now)):
-        x = now[i][0]
-        y = now[i][1]
-    for _ in range(4):
-        x = (x + d + 3) % 4
-        y = (y + d + 3) % 4
-        if cleaned[x][y] == False:
-            now.append([x, y])
-            is_clean()
-            ans += 1
-            break
-
-
+def find(r, c):
+    for i in range(4):
+        x = (r + dx[i]) % 4
+        y = (c + dy[i]) % 4
+        if cleaned[x][y]:
+            return 1
+    return 0
 
 
 def move(r, c, d):
-    # 뒷 칸이 0이면 후진하고 clean으로 돌아가기
-    # 뒷 칸이 1이면 작동 멈춤
-    x = r + dx[(d + 2) % 4]
-    y = c + dy[(d + 2) % 4]
-    return x, y
+    global ans
+    ans += 1
+    for i in range(4):
+        x = r + dx[(d + 3 + i) % 4]
+        y = c + dy[(d + 3 + i) % 4]
+        if cleaned[x][y] == False:
+            r = x
+            c = y
+            d = (d + 3 + i) % 4
+            now.append([r, c, d])
 
 
 n, m = map(int, input().split())
