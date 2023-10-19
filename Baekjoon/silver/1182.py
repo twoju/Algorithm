@@ -2,7 +2,6 @@ def check(cur, num):
     global cnt
     if cur == len(arr):
         if num == s:
-            print(cur, num, s)
             cnt += 1
             return
         return
@@ -17,5 +16,5 @@ cnt = 0
 check(0, 0)
 
 if s == 0:
-    cnt - 1
+    cnt -= 1
 print(cnt)
