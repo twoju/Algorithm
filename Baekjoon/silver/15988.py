@@ -11,30 +11,30 @@
 
 # 재귀로 풀었더니 recursion error 랑 시간초과를 뿜어낸다..
 # pypy 는 메모리 초과
-# import sys
-# sys.setrecursionlimit(10**6)
-# input = sys.stdin.readline
+import sys
+sys.setrecursionlimit(10**6)
+input = sys.stdin.readline
 
-# def recur(total):
-#     if total > n:
-#         return 0
-#     if total == n:
-#         return 1
-#     if dp[total] != -1:
-#         return dp[total]
-#     ans = 0
-#     for i in range(1, 4):
-#         ans += recur(total + i)
-#         dp[total] = ans % 1000000009
-#     return dp[total]
+def recur(total):
+    if total > n:
+        return 0
+    if total == n:
+        return 1
+    if dp[total] != -1:
+        return dp[total]
+    ans = 0
+    for i in range(1, 4):
+        ans += recur(total + i)
+        dp[total] = ans
+    return dp[total] % 1000000009
 
 
-# t = int(input())
+t = int(input())
 
-# for _ in range(t):
-#     n = int(input())
-#     dp = [-1] * 1000001
-#     print(recur(0))
+for _ in range(t):
+    n = int(input())
+    dp = [-1] * 1000001
+    print(recur(0))
 
 # ---
 
