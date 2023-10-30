@@ -9,8 +9,6 @@ numbers = list(map(int, input().split()))
 for i in range(n):
     for start in range(n - i):
         end = start + i
-        if end >= n:
-            break
         if i == 0:
             dp[start][end] = 1
             continue
