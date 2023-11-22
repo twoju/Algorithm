@@ -18,10 +18,9 @@ while q:
     for nxt in [cur + 1, cur -1, cur * 2]:
         if nxt < 0 or nxt >= 100010:
             continue
-        if visited[nxt] != -1:
-            continue
-        q.append(nxt)
-        visited[nxt] = visited[cur] + 1
+        if visited[nxt] == -1 or visited[nxt] >= visited[cur] + 1:
+            q.append(nxt)
+            visited[nxt] = visited[cur] + 1
 
 
 print(visited[k])
