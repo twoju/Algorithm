@@ -4,9 +4,9 @@ input = sys.stdin.readline
 n, m = map(int, input().split())
 
 parent = [i for i in range(1000010)]
+rank = [0 for i in range(1000010)]
 
 def find(x):
-    # 같은 집합(루트가 같은지) 확인
     if parent[x] != x:
         parent[x] = find(parent[x])
     return parent[x]
@@ -14,7 +14,13 @@ def find(x):
 def union(a, b):
     a = find(a)
     b = find(b)
-    parent[b] = a
+    if rank[a] < rank[b]:
+        parent[a] = b
+    elif rank[b] < rank[a]:
+        parent[b] = a
+    else:
+        parent[a] = b
+        rank[b] += 1
 
 for _ in range(m):
     tp, a, b = map(int, input().split())
