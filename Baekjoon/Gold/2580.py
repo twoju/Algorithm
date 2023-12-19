@@ -40,10 +40,9 @@ def sudoku(n):
     x = nxt[n][0]
     y = nxt[n][1]
     for a in range(1, 10):
-        if check_b(x, y, a) and check_h(x, a) and check_v(y, a):
+        if  check_h(x, a) and check_v(y, a) and check_b(x, y, a):
             board[x][y] = a
             sudoku(n + 1)
             board[x][y] = 0
-
 
 sudoku(0)
