@@ -25,7 +25,7 @@ def recur(cur, total, prev):
 	global ans
 	if cur == n:
 		ans = min(ans, total)
-		retur
+		return
 	for i in range(3):
 		if i == prev:
 			continue
@@ -34,7 +34,7 @@ def recur(cur, total, prev):
 
 n = int(input())
 ls = [list ]
-ans = int(le9)
+ans = int(1e9)
 """
 탑다운 dp 짜는 법
 1. 백트를 짠다
