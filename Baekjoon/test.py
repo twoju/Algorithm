@@ -1,30 +1,28 @@
 import sys
 input = sys.stdin.readline
 
-n = int(input())
-asis = list(map(int, input().strip()))
-tobe = list(map(int, input().strip()))
+n, k = map(int, input().split())
 
-# (asis -> 변경, tobe -> 비교)
-def click(a, b):
-    ac = a[:]
-    cnt = 0
-    for i in range(1, n):
-        if ac[i - 1] != b[i - 1]:
-            cnt += 1
-            for j in range(i - 1, i + 2):
-                if j < n:
-                    ac[j] = 1 - ac[j]
-    if ac == b:
-        return cnt
-    else:
-        return 1e9
-    
-ans = click(asis, tobe)
-asis[0] = 1 - asis[0]
-asis[1] = 1 - asis[1]
-ans = min(ans, click(asis, tobe) + 1)
-if ans != 1e9:
-    print(ans)
+if n == k:
+    print('Impossible')
+elif n == k + 1:
+    for i in range(1, n + 1):
+        print(i, end=' ')
 else:
-    print(-1)
+    arr = [i for i in range(1, n + 1)]
+    cnt = n - 1
+    turn = 1
+    while True:
+        if cnt == k:
+            break
+        if turn >= n - 1:
+            break
+        if cnt % 2 == 1:
+            arr[0], arr[n - 1] = arr[n - 1], arr[0]
+            cnt -= 1
+        elif cnt % 2 == 0:
+            arr[turn], arr[turn + 1] = arr[turn + 1], arr[turn]
+            cnt -= 2
+            turn += 2
+
+    print(*arr)
