@@ -1,47 +1,30 @@
 import sys
 input = sys.stdin.readline
 
-def test(a):
-    for i in range(2, int(a ** 0.5) + 1):
-        if a % i == 0:
-            return 0
-    return 1
-
 n = int(input().strip())
+arr = [list(map(int, input().split())) for _ in range(n)]
 
-if n == 1:
-    print('no')
-    sys.exit(0)
+pref_num = [[[0] * 11 for _ in range(n + 1)] for _ in range(n + 1)]
 
-if not test(n):
-    print('no')
-    sys.exit(0)
+for x in range(1, n + 1):
+    for y in range(1, n + 1):
+        for k in range(11):
+            if arr[x - 1][y - 1] == k:
+                pref_num[x][y][k] += 1
+            pref_num[x][y][k] += pref_num[x - 1][y][k] + pref_num[x][y - 1][k] - pref_num[x - 1][y - 1][k]
 
-new = ''
-
-for i in str(n):
-    ni = int(i)
-    if ni == 6:
-        new += '9'
-    elif ni == 9:
-        new += '6'
-    else:
-        new += str(ni)
-    if ni in [3, 4, 7]:
-        print('no')
-        sys.exit(0)
+q = int(input().strip())
+for _ in range(q):
+    ax, ay, bx, by = map(int, input().split())
+    ans = 0
+    for i in range(1, 11):
+        if pref_num[bx][by][i] - pref_num[bx][ay - 1][i] - pref_num[ax - 1][by][i] + pref_num[ax - 1][ay - 1][i]:
+            ans += 1
+    print(ans)
 
 
-new = new[::-1]
-if new[0] == '0':
-    print('no')
-    sys.exit(0)
-
-t = int(new)
-if test(t):
-    print('yes')
-else:
-    print('no')
+    
+# for i in range(n + 1):
 
 
 # n, k = map(int, input().split())
