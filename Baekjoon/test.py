@@ -1,29 +1,32 @@
 import sys
 input = sys.stdin.readline
 
-n = int(input().strip())
-arr = [list(map(int, input().split())) for _ in range(n)]
+n = int (input().strip())
+# n 까지 소수 구하기
+# 소수 범위 안에서 s, e 로 범위 좁히면서 찾기
 
-pref_num = [[[0] * 11 for _ in range(n + 1)] for _ in range(n + 1)]
+prime = []
+flag = [False, False] + [True] * (n - 1)
 
-for x in range(1, n + 1):
-    for y in range(1, n + 1):
-        for k in range(11):
-            if arr[x - 1][y - 1] == k:
-                pref_num[x][y][k] += 1
-            pref_num[x][y][k] += pref_num[x - 1][y][k] + pref_num[x][y - 1][k] - pref_num[x - 1][y - 1][k]
+for i in range(2, n + 1):
+    if flag[i]:
+        prime.append(i)
+        for j in range(i * 2, n + 1, i):
+            flag[j] = False
 
-q = int(input().strip())
-for _ in range(q):
-    ax, ay, bx, by = map(int, input().split())
-    ans = 0
-    for i in range(1, 11):
-        if pref_num[bx][by][i] - pref_num[bx][ay - 1][i] - pref_num[ax - 1][by][i] + pref_num[ax - 1][ay - 1][i]:
-            ans += 1
-    print(ans)
-
-
+s, e = 0, 0
+cnt = 0
+while e < len(prime):
+    p = sum(prime[s:e+1])
+    if p == n:
+        cnt += 1
+    if p >= n:
+        s += 1
+    else:
+        e += 1
     
+print(cnt)
+
 # for i in range(n + 1):
 
 
