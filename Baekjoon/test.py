@@ -1,57 +1,28 @@
 import sys
 input = sys.stdin.readline
 
-n = int (input().strip())
-# n 까지 소수 구하기
-# 소수 범위 안에서 s, e 로 범위 좁히면서 찾기
+n, k = map(int, input().split())
+arr = list(map(int, input().split()))
+large_odd = [0] * (k + 2)
 
-prime = []
-flag = [False, False] + [True] * (n - 1)
-
-for i in range(2, n + 1):
-    if flag[i]:
-        prime.append(i)
-        for j in range(i * 2, n + 1, i):
-            flag[j] = False
-
-s, e = 0, 0
+odd = 0
 cnt = 0
-while e < len(prime):
-    p = sum(prime[s:e+1])
-    if p == n:
-        cnt += 1
-    if p >= n:
-        s += 1
+r = 0
+for l in range(n):
+    while r < n:
+        if odd > k:
+            break
+        if arr[r] % 2:
+            odd += 1
+        else:
+            cnt += 1
+        r += 1
+        large_odd[odd] = max(large_odd[odd], cnt)
+
+    if arr[l] % 2:
+        odd -= 1
     else:
-        e += 1
-    
-print(cnt)
+        cnt -= 1
 
-# for i in range(n + 1):
+print(max(large_odd[:k + 1]))
 
-
-# n, k = map(int, input().split())
-
-# if n == k:
-#     print('Impossible')
-# elif n == k + 1:
-#     for i in range(1, n + 1):
-#         print(i, end=' ')
-# else:
-#     arr = [i for i in range(1, n + 1)]
-#     cnt = n - 1
-#     turn = 1
-#     while True:
-#         if cnt == k:
-#             break
-#         if turn >= n - 1:
-#             break
-#         if cnt % 2 == 1:
-#             arr[0], arr[n - 1] = arr[n - 1], arr[0]
-#             cnt -= 1
-#         elif cnt % 2 == 0:
-#             arr[turn], arr[turn + 1] = arr[turn + 1], arr[turn]
-#             cnt -= 2
-#             turn += 2
-
-#     print(*arr)
