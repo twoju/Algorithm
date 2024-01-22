@@ -1,28 +1,31 @@
 import sys
 input = sys.stdin.readline
+from collections import defaultdict
 
-n, k = map(int, input().split())
-arr = list(map(int, input().split()))
-large_odd = [0] * (k + 2)
+n = int(input().strip())
+strr = list(map(str, input().strip()))
+m = len(strr)
 
-odd = 0
-cnt = 0
-r = 0
-for l in range(n):
-    while r < n:
-        if odd > k:
-            break
-        if arr[r] % 2:
-            odd += 1
-        else:
-            cnt += 1
-        r += 1
-        large_odd[odd] = max(large_odd[odd], cnt)
-
-    if arr[l] % 2:
-        odd -= 1
+d = defaultdict(int)
+l, r = 0, 0
+ans = 0
+while l < m:
+    d[strr[r]] += 1
+    
+    if len(d) > n:
+        while l < r:
+            if len(d) <= n:
+                break
+            if d[strr[l]] == 1:
+                d.pop(strr[l])
+            else:
+                d[strr[l]] -= 1
+            l += 1
     else:
-        cnt -= 1
+        ans = max(ans, r - l + 1)
+        
+    r += 1
+    if r >= m:
+        break
 
-print(max(large_odd[:k + 1]))
-
+print(ans)
