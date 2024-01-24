@@ -1,31 +1,34 @@
 import sys
 input = sys.stdin.readline
-from collections import defaultdict
 
 n = int(input().strip())
-strr = list(map(str, input().strip()))
-m = len(strr)
+x_len, y_len = map(int, input().split())
 
-d = defaultdict(int)
-l, r = 0, 0
-ans = 0
-while l < m:
-    d[strr[r]] += 1
+dots = []
+for _ in range(n):
+    x, y = map(int, input().split())
+    dots.append((x, y))
+
+dots.sort()
+
+def find(f):
+    s, e = 0, n - 1
+    while s <= e:
+        mid = (s + e) // 2
+        if dots[mid] == f:
+            return True
+        elif dots[mid] > f:
+            e = mid - 1
+        else:
+            s = mid + 1
+    return False
     
-    if len(d) > n:
-        while l < r:
-            if len(d) <= n:
-                break
-            if d[strr[l]] == 1:
-                d.pop(strr[l])
-            else:
-                d[strr[l]] -= 1
-            l += 1
-    else:
-        ans = max(ans, r - l + 1)
-        
-    r += 1
-    if r >= m:
-        break
 
-print(ans)
+cnt = 0
+for i in range(n):
+    dx, dy = dots[i][0], dots[i][1]
+
+    if find((dx + x_len, dy)) and find((dx, dy + y_len)) and find((dx + x_len, dy + y_len)):
+        cnt += 1
+
+print(cnt)
