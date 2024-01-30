@@ -1,26 +1,19 @@
 import sys
 input = sys.stdin.readline
 
-n, c = map(int, input().split())
-house = sorted(list(int(input().strip()) for _ in range(n)))
+n, m = map(int, input().split())
 
-s, e = 1, max(house) - min(house)
-ans = 0
-while s <= e:
-    mid = (s + e) // 2
+def recur(cur):
+    if cur == m:
+        print(*res)
+        return
+    for i in range(1, n + 1):
+        if visited[i]: continue
+        res[cur] = i
+        visited[i] = True
+        recur(cur + 1)
+        visited[i] = False
 
-    cnt = 1
-    now = house[0]
-
-    for i in range(1, n):
-        if house[i] >= now + mid:
-            cnt += 1
-            now = house[i]
-
-    if cnt >= c:
-        s = mid + 1
-        ans = mid
-    else:
-        e = mid - 1
-
-print(ans)
+res = [0] * m
+visited = [False] * (n + 1)
+recur(0)
