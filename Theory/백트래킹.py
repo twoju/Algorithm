@@ -96,3 +96,53 @@ def recur(cur, a, b):
 cur 대신 x, y 로 하고나서 옆으로(y +1) 이동하면서 확인
 그리고 y == 벽에 닿으면, x += 1하고 y == 0 해서 다시 확인하면 된다
 """
+
+
+"""
+24.01.30
+"""
+
+"""
+백트래킹 -> 완탐으로 가능하다
+
+"""
+
+# 1자리인 5진수를 출력 -> 0 1 2 3 4
+# 반복문인 경우
+for i in range(5):
+	print(i)
+# 2자리인 5진수를 출력 -> 00 01 02 03 04 .. 44
+for i in range(5):
+	for j in range(5):
+		print(i, j, sep="")
+
+# 순열
+def recur(cur):
+	if cur == n:
+		print(*selected)
+		return
+	for i in range(m):
+		if visited[i]:
+			continue
+		visited[cur] = i
+		recur(cur + 1)
+
+# 중복 조합
+def recur(cur, start):
+	if cur == n:
+		print(*selected)
+		return
+	for i in range(start, m):
+		selected[cur] = i
+		recur(cur + 1, i + 1)
+
+# if 조건 바꾸면서 문제 풀기
+def recur(cur, start):
+	global ans
+	if cur == len:
+		if sum(selected) == k:
+			ans += 1
+		return
+	for i in range(start, m):
+		selected[cur] = i
+		recur(cur + 1, i + 1)

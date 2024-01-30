@@ -1,34 +1,26 @@
 import sys
 input = sys.stdin.readline
 
-n = int(input().strip())
-x_len, y_len = map(int, input().split())
+n, c = map(int, input().split())
+house = sorted(list(int(input().strip()) for _ in range(n)))
 
-dots = []
-for _ in range(n):
-    x, y = map(int, input().split())
-    dots.append((x, y))
+s, e = 1, max(house) - min(house)
+ans = 0
+while s <= e:
+    mid = (s + e) // 2
 
-dots.sort()
+    cnt = 1
+    now = house[0]
 
-def find(f):
-    s, e = 0, n - 1
-    while s <= e:
-        mid = (s + e) // 2
-        if dots[mid] == f:
-            return True
-        elif dots[mid] > f:
-            e = mid - 1
-        else:
-            s = mid + 1
-    return False
-    
+    for i in range(1, n):
+        if house[i] >= now + mid:
+            cnt += 1
+            now = house[i]
 
-cnt = 0
-for i in range(n):
-    dx, dy = dots[i][0], dots[i][1]
+    if cnt >= c:
+        s = mid + 1
+        ans = mid
+    else:
+        e = mid - 1
 
-    if find((dx + x_len, dy)) and find((dx, dy + y_len)) and find((dx + x_len, dy + y_len)):
-        cnt += 1
-
-print(cnt)
+print(ans)
