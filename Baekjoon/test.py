@@ -4,16 +4,13 @@ input = sys.stdin.readline
 n, m = map(int, input().split())
 
 def recur(cur):
+    global ans
     if cur == m:
-        print(*res)
+        print(*ans)
         return
     for i in range(1, n + 1):
-        if visited[i]: continue
-        res[cur] = i
-        visited[i] = True
+        ans[cur] = i
         recur(cur + 1)
-        visited[i] = False
 
-res = [0] * m
-visited = [False] * (n + 1)
+ans = [0] * m
 recur(0)
