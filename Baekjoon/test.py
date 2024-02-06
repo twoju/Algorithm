@@ -1,16 +1,20 @@
 import sys
 input = sys.stdin.readline
 
-n, m = map(int, input().split())
-
-def recur(cur):
-    global ans
-    if cur == m:
-        print(*ans)
+def recur(cur, total):
+    global cnt
+    if cur == n:
+        if total == s:
+            cnt += 1
         return
-    for i in range(1, n + 1):
-        ans[cur] = i
-        recur(cur + 1)
+    recur(cur + 1, total + arr[cur])
+    recur(cur + 1, total)
 
-ans = [0] * m
-recur(0)
+n, s = map(int, input().split())
+arr = list(map(int, input().split()))
+cnt = 0
+recur(0, 0)
+
+if s == 0:
+    cnt -= 1
+print(cnt)

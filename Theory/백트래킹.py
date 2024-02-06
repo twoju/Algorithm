@@ -146,3 +146,38 @@ def recur(cur, start):
 	for i in range(start, m):
 		selected[cur] = i
 		recur(cur + 1, i + 1)
+
+"""
+24.02.06
+백트래킹 2탄
+
+응용하기 편한 형태의 조합을 배운다.
+"""
+
+def recur(cur, total):
+	if cur == n:
+		if total == m:
+			cnt += 1
+		return
+	recur(cur + 1, total + ls[cur])
+	recur(cur + 1, total)
+
+recur(0, 0)
+
+# 이런식으로 고를지 안고를지를 재귀로 보내고 원하는만큼 고른 경우만 체크
+
+"""
+5 * 5
+2차원에서 문제 풀기
+"""
+
+def recur(x, y, cnt):
+	# 범위 넘어가면 다시 데려오기
+	if y == 5:
+		x += 1
+		y = 0
+	# 고름
+	recur(x, y + 1, cnt + 1)
+	# 안 고름
+	recur(x, y + 1, cnt)
+
