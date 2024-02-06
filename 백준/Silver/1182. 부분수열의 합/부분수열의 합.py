@@ -1,19 +1,19 @@
-def check(cur, num):
+import sys
+input = sys.stdin.readline
+
+def recur(cur, total):
     global cnt
-    if cur == len(arr):
-        if num == s:
+    if cur == n:
+        if total == s:
             cnt += 1
-            return
         return
-    check(cur + 1, num + arr[cur])
-    check(cur + 1, num)
-    
+    recur(cur + 1, total + arr[cur])
+    recur(cur + 1, total)
 
 n, s = map(int, input().split())
 arr = list(map(int, input().split()))
-
 cnt = 0
-check(0, 0)
+recur(0, 0)
 
 if s == 0:
     cnt -= 1
