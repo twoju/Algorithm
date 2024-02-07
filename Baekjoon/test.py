@@ -1,20 +1,29 @@
 import sys
 input = sys.stdin.readline
 
-def recur(cur, total):
+def recur(cur):
     global cnt
-    if cur == n:
-        if total == s:
-            cnt += 1
+    if cur == 10:
+        if len(ans) == 10:
+            score = 0
+            for i in range(10):
+                if answer[i] == ans[i]:
+                    score += 1
+                if score > 4:
+                    cnt += 1
+                    return
         return
-    recur(cur + 1, total + arr[cur])
-    recur(cur + 1, total)
+    for i in range(1, 6):
+        if cur > 1 and len(ans) > 1:
+            if ans[cur - 2] == ans[cur - 1] == i:
+                continue
+        ans[cur] = i
+        recur(cur + 1)
+        ans[cur] = 0
 
-n, s = map(int, input().split())
-arr = list(map(int, input().split()))
+    
+answer = list(map(int, input().split()))
 cnt = 0
-recur(0, 0)
-
-if s == 0:
-    cnt -= 1
+ans = [0] * 10
+recur(0)
 print(cnt)
