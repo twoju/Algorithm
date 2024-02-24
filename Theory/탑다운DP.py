@@ -1,5 +1,9 @@
 """탑다운 DP
 
+1. 백트래킹을 짠다
+2. 리턴하는 방식으로 바꾼다
+3. 공식 대입
+
 퇴사2"""
 
 def recur(cur):  # 현재 cur 일이고, 앞으로 최선을 다해서 일을 고를 때 얻을 수 있는 최대 이득
@@ -92,3 +96,34 @@ def recur(cur, w):
 
 
 dp = [[-1] * 101010 for _ in range(n)]
+
+"""
+2024.02.13
+"""
+
+def recur(cur, total, prev):
+	global ans
+	if cur == n:
+		ans = min(ans, total)
+		return
+	for i in range(3):
+		if i == prev:
+			continue
+		recur(cur + 1, total + cur, i)
+
+def recur(cur, prev):
+	global ans
+	if cur == n:
+		return 0
+	# 초기 값이 아니면 이미 구한 거니끼 dp를 리턴함
+	if dp[cur][prev] != -1:
+		return dp[cur][prev]
+	ret = 100000000
+	# ret = return 할 값
+	for i in range(3):
+		if i == prev:
+			continue
+		ret = min(ret, recur(cur + 1, i) + ls[cur][i])
+	dp[cur][prev] = ret
+	return dp[cur][prev]
+

@@ -22,6 +22,7 @@ for i in range(n):
     for j in range(i):
         if ls[j] < ls[i]:
             if dp[i] < dp[j] + 1:
+                # dp 값이 갱신 될 때, 어디에서 갱신 되었는지 체크해주기
                 dp[i] = dp[j] + 1
                 prev[i] = j
 mx = -1
@@ -32,6 +33,7 @@ for i in range(n):
         idx = i
 print(mx)
 
+# 다시 -1로 돌아갈 때까지 찾아가는 것 : 역추적
 while idx != -1:
     print(ls[idx], end=' ')
     idx = prev[idx]
