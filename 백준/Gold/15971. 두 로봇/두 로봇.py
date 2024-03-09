@@ -1,5 +1,6 @@
 import sys
 input = sys.stdin.readline
+sys.setrecursionlimit(10 ** 5)
 
 def dfs(cur, total, cnt):
     visited[cur] = True
