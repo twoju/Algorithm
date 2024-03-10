@@ -1,23 +1,23 @@
 import sys
 input = sys.stdin.readline
-from collections import deque
+from collections import defaultdict
 
-n, f, s = map(int, input().split())
-crave = [[] for _ in range(n + 1)]
-for _ in range(n - 1):
-    u, v, l = map(int, input().split())
-    crave[u].append((v, l))
-    crave[v].append((u, l))
+def check(cur, prev):
+    if cur == m:
+        return True
+    if d[word[cur]] == 0 or word[cur] == prev:
+        d[word[cur]] += 1
+        if check(cur + 1, word[cur]):
+            return True
+    return False
 
-visited = [False] * (n + 1)
-q = deque([(f, 0, 0)])
-while q:
-    cur, total, tmp = q.pop()
-    visited[cur] = True
-    if cur == s:
-        print(total - tmp)
-        exit(0)
-    for nxt, cnt in crave[cur]:
-        if visited[nxt]:
-            continue
-        q.appendleft((nxt, total + cnt, max(tmp, cnt)))
+n = int(input().strip())
+cnt = 0
+for _ in range(n):
+    word = input().strip()
+    m = len(word)
+    d = defaultdict(int)
+    if check(0, ''):
+        cnt += 1
+
+print(cnt)
