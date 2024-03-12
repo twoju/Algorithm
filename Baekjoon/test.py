@@ -1,25 +1,24 @@
 import sys
 input = sys.stdin.readline
+from math import lcm
 sys.setrecursionlimit(20000)
 
-def dfs(c):
-    global cnt, ans
-    if ans == cards:
-        cnt = min(cnt, c)
-        return
-    ret = [0] * n
-    for i in range(n):
-        ret[i] = ans[shake[i] - 1]
-    ans = ret[:]
-    dfs(c + 1)
+def dfs(cur, cnt):
+    global i
+    visited[cur] = True
+    if shake[cur] == i:
+        return cnt
+    elif not visited[shake[cur]]:
+        return dfs(shake[cur], cnt + 1)
+
 
 n = int(input().strip())
-cards = [i for i in range(1, n + 1)]
-shake = list(map(int, input().split()))
+shake = [0] + list(map(int, input().split()))
 
-cnt = 2000000100
-ans = [0] * n
-for i in range(n):
-    ans[i] = cards[shake[i] - 1]
-dfs(1)
-print(cnt)
+ans = []
+visited = [False] * (n + 1)
+for i in range(1, n + 1):
+    if visited[i]:
+        continue
+    ans.append(dfs(i, 1))
+print(lcm(*ans))
