@@ -1,23 +1,25 @@
 import sys
 input = sys.stdin.readline
-from collections import defaultdict
+sys.setrecursionlimit(20000)
 
-def check(cur, prev):
-    if cur == m:
-        return True
-    if d[word[cur]] == 0 or word[cur] == prev:
-        d[word[cur]] += 1
-        if check(cur + 1, word[cur]):
-            return True
-    return False
+def dfs(c):
+    global cnt, ans
+    if ans == cards:
+        cnt = min(cnt, c)
+        return
+    ret = [0] * n
+    for i in range(n):
+        ret[i] = ans[shake[i] - 1]
+    ans = ret[:]
+    dfs(c + 1)
 
 n = int(input().strip())
-cnt = 0
-for _ in range(n):
-    word = input().strip()
-    m = len(word)
-    d = defaultdict(int)
-    if check(0, ''):
-        cnt += 1
+cards = [i for i in range(1, n + 1)]
+shake = list(map(int, input().split()))
 
+cnt = 2000000100
+ans = [0] * n
+for i in range(n):
+    ans[i] = cards[shake[i] - 1]
+dfs(1)
 print(cnt)
