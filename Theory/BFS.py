@@ -146,6 +146,7 @@ def dijkstra(x):
                 dist[u] = dist[x] + weight
                 heapq.heappush(q, (dist[u], u))
 
+dist = [int(1e9)] * (n + 1)
 for _ in range(m):
     a, b, c = map()
     graph[a].append((b, c))
@@ -173,3 +174,60 @@ BFS, dijkstra 좀 어려운 경우
 
 4. 구현이 어려운 경우
 """
+
+"""
+바이러스 문제
+"""
+
+n = int(input().strip())
+m = int(input().strip())
+graph = [[] for _ in range(n + 1)]
+for _ in range(m):
+    a, b = map(int, input().split())
+    graph[a].append(b)
+    graph[b].append(a)
+
+visited = [False] * (n + 1)
+q = deque()
+q.append(1)
+visited[1] = True
+
+while q:
+    cur = q.popleft()
+    for nxt in graph[cur]:
+        if visited[nxt]:
+            continue
+        q.append(nxt)
+        visited[nxt] = True
+
+# ---
+dist = 0
+size = len(q)
+# 거리가 3인 곳 까지만 가고싶은 경우는 while q 대신 range(3)
+for _ in range(3):
+    for _ in range(size):
+        cur = q.popleft()
+        if cur == m:
+            print(dist)
+            break
+        for nxt in [cur - 1, cur + 1]:
+            if visited[nxt]:
+                continue
+            q.append(nxt)
+            visited[nxt] = True
+    dist += 1
+
+# ---
+
+# dijkstra 사용법
+    
+while q:
+    dist_x, x = heapq.heappop(q)
+    if dist_x != dist[x]:
+        continue
+    for u, w in graph[x]:
+        if dist[u] > dist[x] + w:
+            dist[u] = dist[x] + w
+            heapq.heappush(q, (dist[u], u))
+
+        

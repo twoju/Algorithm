@@ -1,24 +1,39 @@
 import sys
-input = sys.stdin.readline
-from math import lcm
-sys.setrecursionlimit(20000)
+input = sys.stdin.readline 
+from collections import deque
+sys.setrecursionlimit(10 ** 5)
 
-def dfs(cur, cnt):
-    global i
-    visited[cur] = True
-    if shake[cur] == i:
-        return cnt
-    elif not visited[shake[cur]]:
-        return dfs(shake[cur], cnt + 1)
+def path_print(x):
+    ans = []
+    tmp = x
+    for _ in range(dist[k] + 1):
+        ans.append(tmp)
+        tmp = path[tmp]
+    ans.reverse()
+    print(*ans)
 
 
-n = int(input().strip())
-shake = [0] + list(map(int, input().split()))
+n, k = map(int, input().split())
 
-ans = []
-visited = [False] * (n + 1)
-for i in range(1, n + 1):
-    if visited[i]:
-        continue
-    ans.append(dfs(i, 1))
-print(lcm(*ans))
+visited = [False] * 100010
+q = deque()
+q.append(n)
+visited[n] = True
+
+dist = [0] * 100010
+path = [0] * 100010
+while q:
+    cur = q.popleft()
+    if cur == k:
+        print(dist[k])
+        path_print(k)
+        break
+    for nxt in [cur + 1, cur - 1, cur * 2]:
+        if nxt < 0 or nxt >= 100010:
+            continue
+        if visited[nxt]:
+            continue
+        q.append(nxt)
+        visited[nxt] = True
+        dist[nxt] = dist[cur] + 1
+        path[nxt] = cur
