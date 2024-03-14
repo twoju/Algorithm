@@ -1,39 +1,33 @@
 import sys
 input = sys.stdin.readline 
-from collections import deque
-sys.setrecursionlimit(10 ** 5)
+import heapq
 
-def path_print(x):
-    ans = []
-    tmp = x
-    for _ in range(dist[k] + 1):
-        ans.append(tmp)
-        tmp = path[tmp]
-    ans.reverse()
-    print(*ans)
-
-
-n, k = map(int, input().split())
-
-visited = [False] * 100010
-q = deque()
-q.append(n)
-visited[n] = True
-
-dist = [0] * 100010
-path = [0] * 100010
-while q:
-    cur = q.popleft()
-    if cur == k:
-        print(dist[k])
-        path_print(k)
+t = 1
+while True:
+    n = int(input().strip())
+    if n == 0:
         break
-    for nxt in [cur + 1, cur - 1, cur * 2]:
-        if nxt < 0 or nxt >= 100010:
-            continue
-        if visited[nxt]:
-            continue
-        q.append(nxt)
-        visited[nxt] = True
-        dist[nxt] = dist[cur] + 1
-        path[nxt] = cur
+    crave = [list(map(int, input().split())) for _ in range(n)]
+    dist = [[1e9] * n for _ in range(n)]
+    q = []
+    heapq.heappush(q, (0, 0, crave[0][0]))
+    dist[0][0] = crave[0][0]
+    ans = 0
+
+    while q:
+        x, y, money = heapq.heappop(q)
+        if x == n - 1 and y == n - 1:
+            ans = money
+            break
+        for dxy in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
+            dx = x + dxy[0]
+            dy = y + dxy[1]
+            if dx < 0 or dy < 0 or dx >= n or dy >= n:
+                continue
+            if dist[dx][dy] <= money + crave[dx][dy]:
+                continue
+            heapq.heappush(q, (dx, dy, money + crave[dx][dy]))
+            dist[dx][dy] = money + crave[dx][dy]
+
+    print(f'Problem {t}: {ans}')
+    t += 1
