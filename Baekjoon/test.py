@@ -1,33 +1,29 @@
 import sys
-input = sys.stdin.readline 
-import heapq
+input = sys.stdin.readline
+from collections import deque
+    
 
-t = 1
-while True:
-    n = int(input().strip())
-    if n == 0:
+n, k = map(int, input().split())
+visited = [False] * 100010
+dist = [0] * 100010
+q = deque()
+q.append(n)
+visited[n] = True
+
+while q:
+    cur = q.popleft()
+    if cur == k:
+        print(dist[k])
         break
-    crave = [list(map(int, input().split())) for _ in range(n)]
-    dist = [[1e9] * n for _ in range(n)]
-    q = []
-    heapq.heappush(q, (0, 0, crave[0][0]))
-    dist[0][0] = crave[0][0]
-    ans = 0
-
-    while q:
-        x, y, money = heapq.heappop(q)
-        if x == n - 1 and y == n - 1:
-            ans = money
-            break
-        for dxy in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
-            dx = x + dxy[0]
-            dy = y + dxy[1]
-            if dx < 0 or dy < 0 or dx >= n or dy >= n:
-                continue
-            if dist[dx][dy] <= money + crave[dx][dy]:
-                continue
-            heapq.heappush(q, (dx, dy, money + crave[dx][dy]))
-            dist[dx][dy] = money + crave[dx][dy]
-
-    print(f'Problem {t}: {ans}')
-    t += 1
+    if cur * 2 <= 100000 and visited[cur * 2] == False:
+        q.appendleft(cur * 2)
+        dist[cur * 2] = dist[cur]
+        visited[cur * 2] = True
+    for nxt in [cur - 1, cur + 1]:
+        if nxt < 0 or nxt >= 100010:
+            continue
+        if visited[nxt]:
+            continue
+        q.append(nxt)
+        visited[nxt] = True
+        dist[nxt] = dist[cur] + 1
