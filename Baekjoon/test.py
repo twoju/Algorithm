@@ -1,29 +1,34 @@
 import sys
 input = sys.stdin.readline
-from collections import deque
-    
 
-n, k = map(int, input().split())
-visited = [False] * 100010
-dist = [0] * 100010
-q = deque()
-q.append(n)
-visited[n] = True
+def dfs(r, c):
+    for dr, dc in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
+        nr, nc = r + dr, c + dc
+        if nr < 0 or nr >= n or nc < 0 or nc >= m:
+            continue
+        if visited[nr][nc]:
+            continue
+        if cabage[nr][nc]:
+            visited[nr][nc] = True
+            dfs(nr, nc)
 
-while q:
-    cur = q.popleft()
-    if cur == k:
-        print(dist[k])
-        break
-    if cur * 2 <= 100000 and visited[cur * 2] == False:
-        q.appendleft(cur * 2)
-        dist[cur * 2] = dist[cur]
-        visited[cur * 2] = True
-    for nxt in [cur - 1, cur + 1]:
-        if nxt < 0 or nxt >= 100010:
-            continue
-        if visited[nxt]:
-            continue
-        q.append(nxt)
-        visited[nxt] = True
-        dist[nxt] = dist[cur] + 1
+
+
+t = int(input().strip())
+for _ in range(t):
+    m, n, k = map(int, input().split())
+    cabage = [[0] * m for _ in range(n)]
+    for _ in range(k):
+        y, x = map(int, input().split())
+        cabage[x][y] = 1
+    visited = [[0] * m for _ in range(n)]
+    ans = 0
+
+    for r in range(n):
+        for c in range(m):
+            if cabage[r][c] and not visited[r][c]:
+                visited[r][c] = True
+                dfs(r, c)
+                ans += 1
+
+    print(ans)
