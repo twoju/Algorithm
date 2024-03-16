@@ -1,34 +1,29 @@
 import sys
 input = sys.stdin.readline
 
-def dfs(r, c):
-    for dr, dc in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
-        nr, nc = r + dr, c + dc
-        if nr < 0 or nr >= n or nc < 0 or nc >= m:
+def dfs(x, y):
+    visited[x][y] = True
+    for i in range(8):
+        dx, dy = x + dxy[i][0], y + dxy[i][1]
+        if dx < 0 or dy < 0 or dx >= h or dy >= w:
             continue
-        if visited[nr][nc]:
+        if visited[dx][dy]:
             continue
-        if cabage[nr][nc]:
-            visited[nr][nc] = True
-            dfs(nr, nc)
+        if board[dx][dy] == 1:
+            dfs(dx, dy)
 
-
-
-t = int(input().strip())
-for _ in range(t):
-    m, n, k = map(int, input().split())
-    cabage = [[0] * m for _ in range(n)]
-    for _ in range(k):
-        y, x = map(int, input().split())
-        cabage[x][y] = 1
-    visited = [[0] * m for _ in range(n)]
+while True:
+    w, h = map(int, input().split())
+    if w == 0 and h == 0:
+        break
+    board = [list(map(int, input().split())) for _ in range(h)]
+    visited = [[False] * w for _ in range(h)]
     ans = 0
-
-    for r in range(n):
-        for c in range(m):
-            if cabage[r][c] and not visited[r][c]:
-                visited[r][c] = True
-                dfs(r, c)
+    dxy = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+    for x in range(h):
+        for y in range(w):
+            if board[x][y] == 1 and not visited[x][y]:
+                dfs(x, y)
                 ans += 1
 
     print(ans)
