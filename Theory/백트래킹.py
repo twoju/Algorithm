@@ -89,7 +89,6 @@ def recur(cur, a, b):
 		return
 	recur(cur + 1, ..
 
-
 —
 """2차원에서 백트래킹 하는 법
 
