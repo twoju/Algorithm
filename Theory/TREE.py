@@ -168,3 +168,47 @@ sys.setrecursionlimit(10 ** 6)
 그 노드에서 dfs 해서 또 제일 먼 노드 찾기
 그 거리가 트리의 지름
 """
+
+"""
+싸이클 찾기
+"""
+if depth[nxt] == 0:
+    depth[nxt] = depth[cur] + 1
+    dfs(nxt, cur)
+elif depth[nxt] < depth[cur]:
+    sz = depth[cur] - depth[nxt] + 1
+
+"""
+사이클이 정확히 1개인 그래프
+정점이 N개 간선이 N개 인 경우
+사이클인 정점이랑 아닌 정점 판별하기
+bfs로 가능
+"""
+
+n = int(input())
+graph = [[] for _ in range(n + 1)]
+deg = [0] * (n + 1)     # 차수
+for _ in range(n):
+    a, b = map()
+    graph[a].append(b)
+    graph[b].append(a)
+    deg[a] += 1
+    deg[b] += 1
+
+from collections import deque
+
+q = deque()
+cycle = [True] * (n + 1)
+for i in range(1, n + 1):
+    # 차수가 1이면 그건 사이클이 없는 노드임
+    if deg[i] == 1:
+        q.append(i)
+        cycle[i] = False
+
+while q:
+    x = q.popleft()
+    for nxt in graph[x]:
+        deg[nxt] -= 1
+        if deg[nxt] == 1 and cycle[nxt]:
+            q.append(nxt)
+            cycle[nxt] = False
