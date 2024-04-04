@@ -1,47 +1,55 @@
 import sys
 input = sys.stdin.readline
-from collections import deque
-
-def find(x):
-    if parent[x] != x:
-        parent[x] = find(parent[x])
-    return parent[x]
-
-def union(a, b):
-    a, b = find(a), find(b)
-    parent[b] = parent[a]
+from collections import defaultdict
 
 
-n, k = map(int, input().split())
-parent = [i for i in range(k + 1)]
-visited = [[0 for _ in range(2001)] for _ in range(2001)]
-dxy = [(0, -1), (-1, 0), (0, 1), (1, 0)]
-
-q = deque()
-for i in range(1, k + 1):
-    x, y = map(int, input().split())
-    q.append((x, y, i, 0))
-
-
-def bfs():
-    cnt = 0
-    while q:
-        x, y, c, t = q.popleft()
-        if visited[x][y]:
+def dfs(cur):
+    global max_depth
+    for nxt in graph[cur]:
+        if nxt == -1:
             continue
-        visited[x][y] = c
-        for i in range(4):
-            dx, dy = x + dxy[i][0], y + dxy[i][1]
-            if dx < 1 or dy < 1 or dx > n or dy > n:
-                continue
-            cur = visited[dx][dy]
-            if cur:
-                if find(c) != find(cur):
-                    union(c, parent[cur])
-                    cnt += 1
-                    if cnt == k - 1:
-                        return t
-                else:
-                    q.append((dx, dy, c, t + 1))
+        depth[nxt] = depth[cur] + 1
+        max_depth = max(max_depth, depth[nxt])
+        dfs(nxt)
 
-print(bfs())
+def inorder(cur):
+    global col_num
+    if graph[cur][0] != -1:
+        inorder(graph[cur][0])
+    col[depth[cur]].append(col_num)
+    col_num += 1
+    if graph[cur][1] != -1:
+        inorder(graph[cur][1])
+
+n = int(input().strip())
+graph = [[0] * 2 for _ in range(10001)]
+
+d = defaultdict(int)
+for _ in range(n):
+    node, l, r = map(int, input().split())
+    for i in [node, l, r]:
+        if i == -1:
+            continue
+        d[i] += 1
+    graph[node][0], graph[node][1] = l, r
+
+start = min(d, key=d.get)
+depth = [0] * (n + 1)
+max_depth = 0
+dfs(start)
+
+col = [[] * (n + 1) for _ in range(max_depth + 1)]
+
+col_num = 1
+inorder(start)
+
+ans = [1, 1]
+for i in range(max_depth + 1):
+    if len(col[i]) == 1:
+        calc = 1
+    else:
+        calc = max(col[i]) - min(col[i]) + 1
+    if calc > ans[1]:
+        ans = [i + 1, calc]
+
+print(*ans)
