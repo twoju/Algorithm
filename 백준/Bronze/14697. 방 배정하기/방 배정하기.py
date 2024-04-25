@@ -1,23 +1,18 @@
 import sys
 input = sys.stdin.readline
-from collections import deque
 
 a, b, c, n = map(int, input().split())
 
-if a == 1:
-    print(1)
-    sys.exit(0)
-    
-q = deque()
-q.append(0)
-while q:
-    cur = q.popleft()
-    if cur > n:
-        print(0)
-        break
-    if cur == n:
+for i in [a, b, c]:
+    if n % i == 0:
         print(1)
-        break
-    for nxt in [c, b, a]:
-        q.append(cur + nxt)
+        sys.exit(0)
 
+for i in range(n // a + 1):
+    for j in range(n // b + 1):
+        for k in range(n // c + 1):
+            if a * i + b * j + c * k == n:
+                print(1)
+                sys.exit(0)
+
+print(0)
