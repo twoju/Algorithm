@@ -2,16 +2,16 @@ import sys
 input = sys.stdin.readline
 
 def recur(cur):
-    global ans
     if cur == m:
-        print(*ans)
+        print(*selected)
         return
-    for nxt in range(n):
-        ans[cur] = arr[nxt]
+    for nxt in arr:
+        selected[cur] = nxt
         recur(cur + 1)
-    
 
 n, m = map(int, input().split())
-arr = sorted(list(map(int, input().split())))
-ans = [0] * m
+arr = list(map(int, input().split()))
+arr.sort()
+
+selected = [0] * m
 recur(0)
