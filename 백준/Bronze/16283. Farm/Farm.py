@@ -1,21 +1,19 @@
+import sys
+input = sys.stdin.readline
+
 a, b, n, w = map(int, input().split())
+lamb, goat = 0, 0
 
-if n == 2:
-    if a + b == w:
-        print(1, 1)
-    else:
-        print(-1)
+for i in range(1, n):
+    g = n - i
+    if (a * i) + (b * g) == w:
+        if lamb == 0 and goat == 0:
+            lamb, goat = i, g
+        else:
+            print(-1)
+            sys.exit(0)
+
+if lamb != 0 and goat != 0:
+    print(lamb, goat)
 else:
-    cnt = 0
-    ans = []
-    for x in range(1, n):
-        if (a * x) + (b * (n - x)) == w:
-            cnt += 1
-            ans.append([x, n - x])
-        if cnt > 1:
-            break
-
-    if len(ans) == 1:
-        print(*ans[0])
-    else:
-        print(-1)
+    print(-1)
