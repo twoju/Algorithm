@@ -1,17 +1,14 @@
-def select(cur, start):
+import sys
+input = sys.stdin.readline
+
+def recur(cur, prev):
     if cur == m:
         print(*selected)
         return
-    for i in range(start, n + 1):
-        if visited[i]:
-            continue
-        selected[cur] = i
-        visited[i] = True
-        select(cur + 1, i + 1)
-        visited[i] = False
-    
+    for nxt in range(prev + 1, n + 1):
+        selected[cur] = nxt
+        recur(cur + 1, nxt)
 
 n, m = map(int, input().split())
 selected = [0] * m
-visited = [False] * (n + 1)
-select(0, 1)
+recur(0, 0)
