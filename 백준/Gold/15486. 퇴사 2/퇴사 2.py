@@ -1,15 +1,19 @@
 import sys
 input = sys.stdin.readline
+sys.setrecursionlimit(10000000)
+
+def recur(cur):
+    if cur > n:
+        return -10000000
+    if cur == n:
+        return 0
+    if dp[cur] != -1:
+        return dp[cur]
+    dp[cur] = max(recur(cur + arr[cur][0]) + arr[cur][1], recur(cur + 1))
+    return dp[cur]
+
 
 n = int(input().strip())
-time = [list(map(int, input().split())) for _ in range(n)]
-
-dp = [0] * (n + 1)
-ret = -1500000000
-for cur in range(n):
-    ret = max(ret, dp[cur])
-    if cur + time[cur][0] > n:
-        continue
-    dp[cur + time[cur][0]] = max(ret + time[cur][1], dp[cur + time[cur][0]])
-
-print(max(dp))
+arr = [list(map(int, input().split())) for _ in range(n)]
+dp = [-1] * 1500010
+print(recur(0))
