@@ -1,19 +1,17 @@
 import sys
 input = sys.stdin.readline
 
-def recur(cur, now, prev):
-    if prev + k < cur:
-        return
-    if cur == n:
-        print(now % 2)
-        return
-    if cur in block:
-        recur(cur + 1, now, prev)
-    recur(cur + 1, now + 1, cur)
-    recur(cur + 1, now, prev)
-    
-    
+n, m = map(int, input().split())
+hi = list(map(int, input().split()))
 
-n, k = map(int, input().split())
-block = list(map(int, input().split()))
-recur(0, 0, 0)
+sign = [0] * 101010
+for _ in range(m):
+    a, b, k = map(int, input().split())
+    sign[a] += k
+    sign[b + 1] -= k
+
+for i in range(1, n + 1):
+    sign[i] += sign[i - 1]
+    hi[i - 1] += sign[i]
+
+print(*hi)
